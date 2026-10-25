@@ -1,0 +1,191 @@
+/* RUMA — admin.css : mode admin */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.stat {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 2px;
+  border-top: 4px solid var(--navy);
+}
+
+.stat strong {
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.stat span {
+  color: var(--muted);
+  font-size: .88rem;
+}
+
+.stat.menunggu {
+  border-top-color: var(--amber);
+}
+
+.stat.disetujui {
+  border-top-color: var(--ok);
+}
+
+.stat.ditolak {
+  border-top-color: var(--bad);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.two-col h3 {
+  margin-bottom: 10px;
+}
+
+.qrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid #efeadb;
+}
+
+.qrow:last-child {
+  border-bottom: 0;
+}
+
+.qrow small {
+  display: block;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+.qact {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.toolbar input[type=search] {
+  max-width: 300px;
+}
+
+.detail-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.detail {
+  margin: 0 0 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 18px;
+}
+
+.detail dt {
+  color: var(--muted);
+  font-size: .76rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.detail dd {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* Kapasitas aula */
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+.cap-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.cap-big {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 14px 0 6px;
+}
+
+.cap-big output {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+
+.cap-big span {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.cap-card .hint {
+  margin: 12px 0 14px;
+  min-height: 2.6em;
+}
+
+.cap-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 860px) {
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .detail {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar input[type=search] {
+    max-width: none;
+  }
+
+  .qrow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .qact {
+    justify-content: flex-end;
+  }
+}

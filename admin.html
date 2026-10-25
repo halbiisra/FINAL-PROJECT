@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16254a">
+  <title>RUMA — Mode Admin</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/calendar.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="brand" href="admin.html" aria-label="CIHUYY beranda admin">
+        <svg class="brand-mark" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#f4a62a"/><path d="M7 15.5 16 8l9 7.5V25H7z" fill="#16254a"/><rect x="13.5" y="17" width="5" height="8" rx="1" fill="#f4a62a"/></svg>
+        <span class="brand-name">CIHUYY</span>
+        <span class="mode-tag admin">Mode Admin</span>
+      </a>
+      <div class="topbar-right">
+        <a class="btn ghost sm light" href="client.html">Mode Client →</a>
+        <div class="userchip"><span class="avatar" id="avatar" aria-hidden="true"></span><span class="u-text"><strong id="userName"></strong><small>Administrator</small></span></div>
+        <button type="button" class="btn ghost sm light" id="logoutBtn">Keluar</button>
+      </div>
+    </div>
+    <nav class="tabs" aria-label="Menu admin">
+      <button type="button" data-tab="ringkasan">Ringkasan</button>
+      <button type="button" data-tab="permintaan">Permintaan <span class="count" id="pendCount" hidden></span></button>
+      <button type="button" data-tab="jadwal">Jadwal</button>
+      <button type="button" data-tab="kapasitas">Kapasitas Aula</button>
+      <button type="button" data-tab="pengguna">Pengguna</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="tab-ringkasan" hidden>
+      <div class="page-head"><h1>Ringkasan</h1><p>Pantau permintaan peminjaman yang masuk dari mode client secara langsung.</p></div>
+      <div class="stats" id="stats"></div>
+      <div class="two-col">
+        <div class="card pad"><h3>Menunggu persetujuan</h3><div id="quickPending"></div></div>
+        <div class="card pad"><h3>Jadwal terdekat</h3><div id="upcoming"></div></div>
+      </div>
+    </section>
+
+    <section id="tab-permintaan" hidden>
+      <div class="page-head"><h1>Permintaan peminjaman</h1><p>Setujui atau tolak permohonan. Pemohon otomatis mendapat email dan notifikasi.</p></div>
+      <div class="toolbar">
+        <div class="chips" id="filterChips" role="group" aria-label="Filter status">
+          <button type="button" class="chip active" data-filter="semua">Semua</button>
+          <button type="button" class="chip" data-filter="menunggu">Menunggu</button>
+          <button type="button" class="chip" data-filter="disetujui">Disetujui</button>
+          <button type="button" class="chip" data-filter="ditolak">Ditolak</button>
+        </div>
+        <input type="search" id="searchBox" placeholder="Cari nama, kode, kegiatan…" aria-label="Cari permintaan">
+      </div>
+      <div class="card table-card"><div class="table-wrap"><table class="table" id="reqTable">
+        <thead><tr><th>Kode</th><th>Peminjam</th><th>Tanggal</th><th>Waktu</th><th>Ruangan</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody id="reqBody"></tbody>
+      </table></div></div>
+    </section>
+
+    <section id="tab-jadwal" hidden>
+      <div class="page-head"><h1>Jadwal ruangan</h1><p>Tampilan kalender yang sama dengan yang dilihat client, lengkap dengan nama peminjam.</p></div>
+      <div class="jadwal-layout">
+        <div class="card pad" id="calRoot"></div>
+        <div class="card pad" id="schedRoot"></div>
+      </div>
+    </section>
+
+    <section id="tab-kapasitas" hidden>
+      <div class="page-head"><h1>Kapasitas aula</h1><p>Geser slider untuk menentukan kapasitas maksimum tiap ruangan. Perubahan langsung memengaruhi slider di formulir client.</p></div>
+      <div class="cap-grid" id="capGrid"></div>
+    </section>
+
+    <section id="tab-pengguna" hidden>
+      <div class="page-head"><h1>Pengguna terdaftar</h1><p>Daftar akun yang dapat masuk ke CIHUYY.</p></div>
+      <div class="card table-card"><div class="table-wrap"><table class="table">
+        <thead><tr><th>Nama</th><th>Username</th><th>Email</th><th>Tipe</th><th>ID</th><th>Aksi</th></tr></thead>
+        <tbody id="userBody"></tbody>
+      </table></div></div>
+    </section>
+  </main>
+
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/mailer.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/schedule.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
