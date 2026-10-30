@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16254a">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <title>RUMA — Admin</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/calendar.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="brand" href="admin.html" aria-label="RUMA beranda admin">
+        <img class="brand-mark" src="assets/logo.svg" width="32" height="32" alt="" aria-hidden="true">
+        <span class="brand-name">RUMA</span>
+        <span class="mode-tag admin" id="roleTag">Admin</span>
+      </a>
+      <div class="topbar-right">
+        <div class="userchip"><span class="avatar" id="avatar" aria-hidden="true"></span><span class="u-text"><strong
+              id="userName"></strong><small id="userRole"></small></span></div>
+        <button type="button" class="btn ghost sm light" id="profileBtn">Profil</button>
+        <button type="button" class="btn ghost sm light" id="passBtn">Kata sandi</button>
+        <button type="button" class="btn ghost sm light" id="logoutBtn">Keluar</button>
+      </div>
+    </div>
+    <!-- Menu tampil sesuai jenis admin: data-roles = tu / kepala -->
+    <nav class="tabs" aria-label="Menu admin">
+      <button type="button" data-tab="ringkasan" data-roles="tu kepala">Ringkasan</button>
+      <button type="button" data-tab="permohonan" data-roles="tu kepala"><span id="permLabel">Permohonan</span> <span
+          class="count" id="pendCount" hidden></span></button>
+      <button type="button" data-tab="jadwal" data-roles="tu kepala">Jadwal</button>
+      <button type="button" data-tab="aula" data-roles="tu">Data Aula</button>
+      <button type="button" data-tab="pengguna" data-roles="tu">Akun Pengguna</button>
+      <button type="button" data-tab="rekap" data-roles="kepala">Rekap</button>
+      <button type="button" data-tab="notif" data-roles="tu kepala">Notifikasi <span class="count" id="notifCount"
+          hidden></span></button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="tab-ringkasan" hidden>
+      <div class="page-head">
+        <h1>Ringkasan</h1>
+        <p id="sumSub"></p>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="two-col">
+        <div class="card pad">
+          <h3 id="quickTitle"></h3>
+          <div id="quickList"></div>
+        </div>
+        <div class="card pad">
+          <h3>Jadwal terdekat</h3>
+          <div id="upcoming"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-permohonan" hidden>
+      <div class="page-head">
+        <h1 id="permTitle"></h1>
+        <p id="permSub"></p>
+      </div>
+      <div class="toolbar">
+        <div class="chips" id="filterChips" role="group" aria-label="Filter status"></div>
+        <input type="search" id="searchBox" placeholder="Cari nama, kode, kegiatan…" aria-label="Cari permohonan">
+      </div>
+      <div class="card table-card">
+        <div class="table-wrap">
+          <table class="table" id="reqTable">
+            <thead>
+              <tr>
+                <th>Kode</th>
+                <th>Pemohon</th>
+                <th>Tanggal</th>
+                <th>Waktu</th>
+                <th>Ruangan</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="reqBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-jadwal" hidden>
+      <div class="page-head">
+        <h1>Kalender &amp; jadwal aula</h1>
+        <p>Kalender ketersediaan yang sama dengan yang dilihat pemohon, lengkap dengan nama pemohon.</p>
+      </div>
+      <div class="jadwal-layout">
+        <div class="card pad" id="calRoot"></div>
+        <div class="card pad" id="schedRoot"></div>
+      </div>
+    </section>
+
+    <section id="tab-aula" hidden>
+      <div class="page-head">
+        <h1>Data aula</h1>
+        <p>Ubah nama, kapasitas maksimum (slider), dan jumlah kursi tiap aula. Perubahan langsung memengaruhi formulir
+          pemohon.</p>
+      </div>
+      <div class="cap-grid" id="capGrid"></div>
+    </section>
+
+    <section id="tab-pengguna" hidden>
+      <div class="page-head">
+        <h1>Akun pengguna</h1>
+        <p>Tambah, ubah, atau nonaktifkan akun pemohon. Akun TU dan Kepala Unit dibuat saat penyiapan sistem.</p>
+      </div>
+      <div class="toolbar"><button type="button" class="btn primary" id="addUserBtn">+ Tambah akun pemohon</button>
+      </div>
+      <div class="card table-card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Peran / Unit</th>
+                <th>NIDN</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="userBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-rekap" hidden>
+      <div class="page-head">
+        <h1>Rekap peminjaman</h1>
+        <p>Rekap permohonan berdasarkan periode (tanggal peminjaman) dan unit.</p>
+      </div>
+      <div class="card pad rekap-filter">
+        <div class="field"><label for="rFrom">Dari tanggal</label><input id="rFrom" type="date"></div>
+        <div class="field"><label for="rTo">Sampai tanggal</label><input id="rTo" type="date"></div>
+        <div class="field"><label for="rUnitSel">Unit</label><select id="rUnitSel"></select></div>
+        <button type="button" class="btn ghost" id="csvBtn">Unduh CSV</button>
+      </div>
+      <div class="stats" id="rekapStats"></div>
+      <div class="card table-card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Unit</th>
+                <th>Total</th>
+                <th>Disetujui</th>
+                <th>Ditolak</th>
+                <th>Dibatalkan</th>
+                <th>Diproses</th>
+              </tr>
+            </thead>
+            <tbody id="rekapUnit"></tbody>
+          </table>
+        </div>
+      </div>
+      <h3 class="sub-h">Daftar permohonan pada periode</h3>
+      <div class="card table-card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Kode</th>
+                <th>Pemohon</th>
+                <th>Unit</th>
+                <th>Tanggal</th>
+                <th>Ruangan</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="rekapBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-notif" hidden>
+      <div class="page-head">
+        <h1>Notifikasi</h1>
+        <p>Pemberitahuan permohonan baru, diteruskan, dan dibatalkan.</p>
+      </div>
+      <div id="notifList" class="notif-list"></div>
+    </section>
+  </main>
+
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/mailer.js"></script>
+  <script src="js/notify.js"></script>
+  <script src="js/flow.js"></script>
+  <script src="js/account.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/schedule.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+
+</html>

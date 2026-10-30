@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16254a">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <title>RUMA — Masuk</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+
+<body class="login-body">
+  <main class="login-shell">
+    <section class="login-hero">
+      <div class="brand">
+        <img class="brand-mark" src="assets/logo.svg" width="40" height="40" alt="" aria-hidden="true">
+        <span class="brand-name">RUMA</span>
+      </div>
+      <h1>Pinjam aula sekolah dengan mudah!</h1>
+      <p class="hero-sub">Sistem Informasi Peminjaman Aula Sekolah Tunas Dharma — ajukan, pantau, dan batalkan
+        peminjaman dari perangkat apa pun.</p>
+      <ul class="hero-points">
+        <li>Lihat kalender ketersediaan aula langsung dari HP</li>
+        <li>Ajukan peminjaman, TU memeriksa, Kepala Unit memutuskan</li>
+        <li>Status terkirim lewat notifikasi dan email</li>
+      </ul>
+    </section>
+
+    <section class="login-card card" aria-label="Masuk atau daftar">
+      <div class="seg" role="tablist">
+        <button type="button" role="tab" id="tabLogin" class="seg-btn active" aria-selected="true"
+          aria-controls="loginForm">Login</button>
+        <button type="button" role="tab" id="tabRegister" class="seg-btn" aria-selected="false"
+          aria-controls="registerForm">Daftar</button>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="lUser">Username</label>
+          <input id="lUser" name="username" autocomplete="username" autocapitalize="none" required>
+        </div>
+        <div class="field">
+          <label for="lPass">Password</label>
+          <input id="lPass" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="form-error" id="loginError" role="alert" hidden></div>
+        <button type="submit" class="btn primary block">Login</button>
+        <p class="aside-link"><button type="button" class="link" id="forgotBtn">*Forgotten your usn or pw?</button></p>
+
+        <div class="demo-box">
+          <span>Akun contoh (klik untuk mengisi):</span>
+          <div class="demo-list">
+            <button type="button" class="chip" data-demo="tu|tu123">Admin TU</button>
+            <button type="button" class="chip" data-demo="kepala|kepala123">Admin Kepala Unit</button>
+            <button type="button" class="chip" data-demo="guru|guru123">Pemohon (Guru)</button>
+          </div>
+        </div>
+      </form>
+
+      <form id="registerForm" novalidate hidden>
+        <p class="hint tight">Pendaftaran untuk pemohon (guru). Akun TU dan Kepala Unit disiapkan oleh sistem.</p>
+        <div class="field"><label for="rName">Nama lengkap</label><input id="rName" name="name" autocomplete="name"
+            required></div>
+        <div class="grid-2">
+          <div class="field"><label for="rId">NIDN</label><input id="rId" name="idNo" inputmode="numeric" minlength="8"
+              maxlength="10" placeholder="8–10 angka" required></div>
+          <div class="field"><label for="rUnit">Unit</label><select id="rUnit" name="unit" required>
+              <option value="">Pilih unit…</option>
+            </select></div>
+        </div>
+        <div class="field"><label for="rEmail">Email</label><input id="rEmail" name="email" type="email"
+            autocomplete="email" required></div>
+        <div class="field"><label for="rPhone">No. HP <span class="opt-tag">opsional</span></label><input id="rPhone"
+            name="phone" type="tel" inputmode="tel" autocomplete="tel"></div>
+        <div class="field"><label for="rUser">Username</label><input id="rUser" name="username" autocomplete="username"
+            autocapitalize="none" required></div>
+        <div class="grid-2">
+          <div class="field"><label for="rPass">Password</label><input id="rPass" name="password" type="password"
+              autocomplete="new-password" required></div>
+          <div class="field"><label for="rPass2">Ulangi password</label><input id="rPass2" name="password2"
+              type="password" autocomplete="new-password" required></div>
+        </div>
+        <div class="form-error" id="registerError" role="alert" hidden></div>
+        <button type="submit" class="btn primary block">Daftar &amp; masuk</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+</body>
+
+</html>

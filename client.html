@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#16254a">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <title>RUMA — Pemohon</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/calendar.css">
+  <link rel="stylesheet" href="css/client.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="brand" href="client.html" aria-label="RUMA beranda">
+        <img class="brand-mark" src="assets/logo.svg" width="32" height="32" alt="" aria-hidden="true">
+        <span class="brand-name">RUMA</span>
+        <span class="mode-tag">Pemohon (Guru)</span>
+      </a>
+      <div class="topbar-right">
+        <div class="userchip"><span class="avatar" id="avatar" aria-hidden="true"></span><span class="u-text"><strong
+              id="userName"></strong><small id="userRole"></small></span></div>
+        <button type="button" class="btn ghost sm light" id="profileBtn">Profil</button>
+        <button type="button" class="btn ghost sm light" id="passBtn">Kata sandi</button>
+        <button type="button" class="btn ghost sm light" id="logoutBtn">Keluar</button>
+      </div>
+    </div>
+    <nav class="tabs" aria-label="Menu pemohon">
+      <button type="button" data-tab="jadwal">Jadwal</button>
+      <button type="button" data-tab="pinjam">Ajukan Peminjaman</button>
+      <button type="button" data-tab="riwayat">Riwayat Saya <span class="count" id="histCount" hidden></span></button>
+      <button type="button" data-tab="notif">Notifikasi <span class="count" id="notifCount" hidden></span></button>
+      <button type="button" data-tab="email">Kotak Email <span class="count" id="mailCount" hidden></span></button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- JADWAL -->
+    <section id="tab-jadwal" hidden>
+      <div class="page-head">
+        <h1>Jadwal ruangan</h1>
+        <p>Kalender ketersediaan aula. Klik tanggal untuk melihat jadwal Aula.</p>
+      </div>
+      <div class="jadwal-layout">
+        <div class="card pad" id="calRoot"></div>
+        <div class="card pad">
+          <div id="schedRoot"></div>
+          <div class="sched-actions"><button type="button" class="btn primary" id="pickDate">Ajukan peminjaman di
+              tanggal ini</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM PEMINJAMAN -->
+    <section id="tab-pinjam" hidden>
+      <div class="page-head">
+        <h1>Ajukan peminjaman aula</h1>
+        <p>Isi formulir di bawah. Permohonan diperiksa TU, lalu diputuskan Kepala Unit. Statusnya dikirim lewat
+          notifikasi dan email.</p>
+      </div>
+
+      <div class="form-layout" id="formArea">
+        <form id="bookForm" class="card pad" novalidate>
+          <h2 class="form-title">Formulir Peminjaman Aula</h2>
+
+          <fieldset class="applicant">
+            <legend>Data pemohon <span class="lock-tag" title="Mengikuti data akun">&#128274; otomatis dari akun</span>
+            </legend>
+            <div class="field"><label for="fNama">Nama Lengkap</label><input id="fNama" class="locked" readonly
+                tabindex="-1"></div>
+            <div class="grid-2">
+              <div class="field"><label for="fId">NIDN</label><input id="fId" class="locked" readonly tabindex="-1">
+              </div>
+              <div class="field"><label for="fUnit">Unit</label><input id="fUnit" class="locked" readonly tabindex="-1">
+              </div>
+            </div>
+            <small class="hint">Nama, NIDN, dan unit mengikuti data akunmu dan tidak dapat diubah saat peminjaman.</small>
+          </fieldset>
+
+          <div class="grid-2">
+            <div class="field"><label for="fStartDate">Hari / Tgl Mulai</label><input id="fStartDate" type="date"
+                required></div>
+            <div class="field"><label for="fEndDate">Hari / Tgl Selesai</label><input id="fEndDate" type="date"
+                required></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label for="fStartTime">Jam Mulai</label><input id="fStartTime" type="time" min="07:00"
+                max="21:00" step="900" required></div>
+            <div class="field"><label for="fEndTime">Jam Selesai</label><input id="fEndTime" type="time" min="07:00"
+                max="21:00" step="900" required></div>
+          </div>
+          <p class="hint tight">Jam operasional 07.00 – 21.00. Jam yang sama berlaku setiap hari bila peminjaman lebih
+            dari satu hari.</p>
+
+          <fieldset class="field">
+            <legend>Ruangan</legend>
+            <div class="room-pick" id="roomPick"></div>
+          </fieldset>
+
+          <div class="field slider-field">
+            <div class="slider-top">
+              <label for="fPeserta">Kapasitas / jumlah peserta</label>
+              <output id="pesertaOut" for="fPeserta" class="slider-out">50 orang</output>
+            </div>
+            <input id="fPeserta" type="range" min="5" max="150" step="5" value="50" class="slider">
+            <div class="slider-scale"><span id="sliderMin">5</span><span id="sliderMid"></span><span
+                id="sliderMax">150</span></div>
+            <div class="meter" aria-hidden="true"><i id="meterFill"></i></div>
+            <small class="hint" id="meterText"></small>
+          </div>
+
+          <div class="field"><label for="fKegiatan">Nama kegiatan <span class="req-mark"
+                aria-hidden="true">*</span><span class="sr-only">(wajib diisi)</span></label><input id="fKegiatan"
+              placeholder="Contoh: Seminar Nasional" maxlength="80" required></div>
+
+          <div class="field"><label for="fDoc">Dokumen pendukung <span class="opt-tag">opsional</span></label>
+            <input id="fDoc" type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+            <small class="hint">PDF, JPG, PNG, DOC, atau DOCX — maksimal 2 MB. Contoh: surat permohonan.</small>
+          </div>
+
+          <label class="check"><input type="checkbox" id="fAgree"><span>*Saya menyetujui <button type="button"
+                class="link" id="termsBtn">ketentuan peminjaman</button></span></label>
+
+          <div class="form-error" id="formError" role="alert" hidden></div>
+
+          <div class="form-actions">
+            <button type="button" class="btn ghost" id="resetBtn">Reset</button>
+            <button type="submit" class="btn primary">Kirim pengajuan</button>
+          </div>
+        </form>
+
+        <aside class="card pad avail" aria-live="polite">
+          <h3>Ketersediaan</h3>
+          <p class="hint" id="availHead"></p>
+          <ul id="availList" class="avail-list"></ul>
+        </aside>
+      </div>
+
+      <!-- Terima kasih -->
+      <div class="card pad thanks" id="thanks" hidden>
+        <div class="thanks-icon" aria-hidden="true">✓</div>
+        <h2>TERIMA KASIH!</h2>
+        <div class="status-pill">Status : <strong>Menunggu</strong></div>
+        <p class="note">*Periksa email anda secara berkala</p>
+        <dl class="summary" id="thanksSummary"></dl>
+        <div class="form-actions center">
+          <a class="btn primary" id="mailBtn" href="#">Kirim ke email</a>
+          <button type="button" class="btn ghost" id="againBtn">Pinjam lagi</button>
+          <button type="button" class="btn ghost" id="toHistory">Lihat riwayat</button>
+        </div>
+        <p class="hint">Salinan konfirmasi juga tersimpan di tab <strong>Kotak Email</strong>.</p>
+      </div>
+    </section>
+
+    <!-- RIWAYAT -->
+    <section id="tab-riwayat" hidden>
+      <div class="page-head">
+        <h1>Riwayat &amp; status permohonan</h1>
+        <p>Status diperbarui otomatis saat TU meneruskan dan Kepala Unit memutuskan.</p>
+      </div>
+      <div id="histList" class="hist-list"></div>
+    </section>
+
+    <!-- NOTIFIKASI -->
+    <section id="tab-notif" hidden>
+      <div class="page-head">
+        <h1>Notifikasi</h1>
+        <p>Pemberitahuan perubahan status permohonanmu.</p>
+      </div>
+      <div id="notifList" class="notif-list"></div>
+    </section>
+
+    <!-- EMAIL -->
+    <section id="tab-email" hidden>
+      <div class="page-head">
+        <h1>Kotak email</h1>
+        <p>Simulasi email notifikasi untuk <strong id="mailAddr"></strong>.</p>
+      </div>
+      <div id="mailList" class="mail-list"></div>
+    </section>
+  </main>
+
+  <script src="js/utils.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/mailer.js"></script>
+  <script src="js/notify.js"></script>
+  <script src="js/flow.js"></script>
+  <script src="js/account.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/schedule.js"></script>
+  <script src="js/client.js"></script>
+</body>
+
+</html>

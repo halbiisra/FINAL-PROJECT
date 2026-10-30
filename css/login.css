@@ -1,0 +1,108 @@
+/* RUMA — login.css : halaman masuk / daftar */
+.login-body {
+  background: var(--navy);
+}
+
+.login-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+}
+
+.login-hero {
+  color: #fff;
+  padding: clamp(28px, 6vw, 72px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  background:
+    radial-gradient(900px 500px at 0% 0%, rgba(244, 166, 42, .18), transparent 60%),
+    linear-gradient(160deg, var(--navy-2), var(--navy));
+}
+
+.login-hero .brand-name {
+  font-size: 1.6rem;
+}
+
+.login-hero h1 {
+  font-size: clamp(1.9rem, 1.2rem + 2.8vw, 3.1rem);
+  max-width: 16ch;
+}
+
+.hero-sub {
+  color: #c9d3ee;
+  max-width: 46ch;
+  font-size: 1.05rem;
+}
+
+.hero-points {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0;
+  display: grid;
+  gap: 10px;
+}
+
+.hero-points li {
+  position: relative;
+  padding-left: 28px;
+  color: #e6ebfa;
+}
+
+.hero-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .35em;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--amber);
+  transform: rotate(45deg) scale(.8);
+}
+
+.login-card {
+  align-self: center;
+  justify-self: center;
+  width: min(440px, calc(100% - 32px));
+  margin: 24px 0;
+  padding: 26px;
+  border: 0;
+}
+
+.aside-link {
+  text-align: center;
+  margin-top: 14px;
+  font-size: .9rem;
+}
+
+.demo-box {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line);
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+@media (max-width: 860px) {
+  .login-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .login-hero {
+    padding: 28px 22px 56px;
+    gap: 12px;
+  }
+
+  .hero-points {
+    display: none;
+  }
+
+  .login-card {
+    margin-top: -34px;
+    margin-bottom: 28px;
+  }
+}

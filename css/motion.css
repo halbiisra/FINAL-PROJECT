@@ -1,0 +1,680 @@
+/* RUMA — motion.css : animasi & navigasi interaktif + gaya form terkunci / edit profil.
+ * Dimuat setelah base.css. Semua animasi otomatis mati bila pengguna memilih
+ * "kurangi gerakan" (lihat aturan prefers-reduced-motion di bagian akhir). */
+
+:root {
+  --ease: cubic-bezier(.22, .8, .24, 1);
+  --lift: 0 10px 28px rgba(22, 37, 74, .14);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---------- Perpindahan halaman / tab ---------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(.94) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 166, 42, .55);
+  }
+
+  100% {
+    box-shadow: 0 0 0 10px rgba(244, 166, 42, 0);
+  }
+}
+
+@keyframes draw-check {
+  from {
+    stroke-dashoffset: 30;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes float-y {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes shine {
+  from {
+    background-position: -200% 0;
+  }
+
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.topbar {
+  animation: slide-down .45s var(--ease) both;
+}
+
+main.container>section:not([hidden]) {
+  animation: rise .45s var(--ease) both;
+}
+
+.page-head {
+  animation: rise .5s var(--ease) both;
+}
+
+/* ---------- Navigasi tab: garis penanda bergeser + hover ---------- */
+.tabs button {
+  position: relative;
+  border-bottom-color: transparent !important;
+  transition: color .2s, transform .2s var(--ease), background .2s;
+  border-radius: 10px 10px 0 0;
+}
+
+.tabs button::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform .3s var(--ease);
+}
+
+.tabs button:hover {
+  background: rgba(255, 255, 255, .07);
+  transform: translateY(-1px);
+}
+
+.tabs button:hover::after {
+  transform: scaleX(.45);
+}
+
+.tabs button.active::after {
+  transform: scaleX(1);
+}
+
+.tabs button.active {
+  background: rgba(255, 255, 255, .10);
+}
+
+.count:not([hidden]) {
+  animation: pop-in .35s var(--ease) both, pulse-ring 1.8s ease-out 2;
+}
+
+/* Logo & nama aplikasi */
+.brand-mark {
+  transition: transform .5s var(--ease);
+}
+
+.brand:hover .brand-mark {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+.userchip .avatar {
+  transition: transform .25s var(--ease), box-shadow .25s;
+}
+
+.userchip:hover .avatar {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 3px rgba(244, 166, 42, .55);
+}
+
+/* ---------- Kartu & daftar (muncul berurutan) ---------- */
+.card {
+  transition: transform .25s var(--ease), box-shadow .25s, border-color .25s;
+}
+
+.hist-item:hover,
+.mail:hover,
+.stat:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--lift);
+}
+
+.hist-list>*,
+.notif-list>*,
+.mail-list>*,
+.avail-list>li,
+.room-pick>*,
+.stats>* {
+  animation: rise .5s var(--ease) both;
+}
+
+:is(.hist-list, .notif-list, .mail-list, .avail-list, .room-pick, .stats)> :nth-child(1) {
+  animation-delay: .04s;
+}
+
+:is(.hist-list, .notif-list, .mail-list, .avail-list, .room-pick, .stats)> :nth-child(2) {
+  animation-delay: .10s;
+}
+
+:is(.hist-list, .notif-list, .mail-list, .avail-list, .room-pick, .stats)> :nth-child(3) {
+  animation-delay: .16s;
+}
+
+:is(.hist-list, .notif-list, .mail-list, .avail-list, .room-pick, .stats)> :nth-child(4) {
+  animation-delay: .22s;
+}
+
+:is(.hist-list, .notif-list, .mail-list, .avail-list, .room-pick, .stats)> :nth-child(n+5) {
+  animation-delay: .28s;
+}
+
+.notif {
+  transition: transform .2s var(--ease), background .2s;
+}
+
+.notif:hover {
+  transform: translateX(4px);
+  background: #fffdf6;
+}
+
+.avail-list li {
+  transition: transform .2s var(--ease), background .2s;
+}
+
+.avail-list li:hover {
+  transform: translateX(3px);
+}
+
+tbody tr {
+  transition: background .15s;
+}
+
+tbody tr:hover {
+  background: #faf8f2;
+}
+
+/* ---------- Tombol ---------- */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s var(--ease), box-shadow .2s, background .15s, border-color .15s;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(22, 37, 74, .16);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0) scale(.98);
+  box-shadow: none;
+}
+
+.btn.primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .22) 50%, transparent 65%);
+  background-size: 200% 100%;
+  background-position: -200% 0;
+  pointer-events: none;
+}
+
+.btn.primary:hover:not(:disabled)::after {
+  animation: shine .9s var(--ease);
+}
+
+.btn.ghost.light:hover {
+  box-shadow: none;
+}
+
+/* ---------- Form: fokus, pilihan ruangan, slider ---------- */
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not(.locked):hover:not(:disabled),
+select:hover,
+textarea:hover {
+  border-color: #bdb59d;
+}
+
+.room-card {
+  transition: transform .2s var(--ease), border-color .2s, background .2s, box-shadow .2s;
+}
+
+.room-opt:hover .room-card {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(22, 37, 74, .1);
+}
+
+.room-opt input:checked+.room-card {
+  animation: pop-in .3s var(--ease);
+}
+
+.meter i {
+  transition: width .35s var(--ease);
+}
+
+.slider-out {
+  display: inline-block;
+  transition: transform .15s var(--ease);
+}
+
+.slider:active~* .slider-out,
+.slider-field:active .slider-out {
+  transform: scale(1.06);
+}
+
+.form-error:not([hidden]),
+.hint-ok:not([hidden]) {
+  animation: pop-in .3s var(--ease);
+}
+
+/* ---------- Kalender ---------- */
+.cal-day {
+  transition: transform .18s var(--ease), background .18s, box-shadow .18s;
+}
+
+.cal-day:not(.is-past):hover {
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.cal-day.is-selected {
+  animation: pop-in .25s var(--ease);
+}
+
+/* ---------- Modal, toast, terima kasih ---------- */
+.modal-backdrop {
+  animation: fade-in .2s ease-out;
+  backdrop-filter: blur(3px);
+}
+
+.modal {
+  animation: pop-in .32s var(--ease) both;
+}
+
+.icon-btn {
+  transition: transform .25s var(--ease), background .15s;
+}
+
+.icon-btn:hover {
+  transform: rotate(90deg);
+}
+
+.thanks {
+  animation: pop-in .5s var(--ease) both;
+}
+
+.thanks-icon {
+  animation: pop-in .5s .15s var(--ease) both, pulse-ring 1.6s .6s ease-out 2;
+}
+
+.status-pill {
+  animation: rise .5s .25s var(--ease) both;
+}
+
+.summary>div {
+  animation: rise .45s var(--ease) both;
+}
+
+.summary>div:nth-child(1) {
+  animation-delay: .30s;
+}
+
+.summary>div:nth-child(2) {
+  animation-delay: .36s;
+}
+
+.summary>div:nth-child(3) {
+  animation-delay: .42s;
+}
+
+.summary>div:nth-child(4) {
+  animation-delay: .48s;
+}
+
+.summary>div:nth-child(n+5) {
+  animation-delay: .54s;
+}
+
+/* ---------- Halaman login ---------- */
+.login-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.login-hero::before,
+.login-hero::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(244, 166, 42, .12);
+  pointer-events: none;
+  animation: float-y 7s ease-in-out infinite;
+}
+
+.login-hero::before {
+  width: 240px;
+  height: 240px;
+  right: -70px;
+  top: 12%;
+}
+
+.login-hero::after {
+  width: 150px;
+  height: 150px;
+  left: 8%;
+  bottom: 6%;
+  animation-duration: 9s;
+  animation-delay: -3s;
+  background: rgba(255, 255, 255, .06);
+}
+
+.login-hero>* {
+  position: relative;
+  z-index: 1;
+  animation: rise .6s var(--ease) both;
+}
+
+.login-hero> :nth-child(2) {
+  animation-delay: .08s;
+}
+
+.login-hero> :nth-child(3) {
+  animation-delay: .16s;
+}
+
+.login-hero> :nth-child(4) {
+  animation-delay: .24s;
+}
+
+.hero-points li {
+  animation: rise .55s var(--ease) both;
+}
+
+.hero-points li:nth-child(1) {
+  animation-delay: .32s;
+}
+
+.hero-points li:nth-child(2) {
+  animation-delay: .40s;
+}
+
+.hero-points li:nth-child(3) {
+  animation-delay: .48s;
+}
+
+.login-card {
+  animation: pop-in .55s .1s var(--ease) both;
+}
+
+.login-card form:not([hidden]) {
+  animation: rise .4s var(--ease) both;
+}
+
+.chip {
+  transition: transform .18s var(--ease), background .15s;
+}
+
+.chip:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------- Pemohon: data akun terkunci ---------- */
+.applicant {
+  border: 1.5px dashed var(--line);
+  border-radius: 12px;
+  padding: 14px 16px 6px;
+  margin: 0 0 16px;
+  background: #fcfbf7;
+  min-width: 0;
+}
+
+.applicant legend {
+  font-weight: 800;
+  font-size: .95rem;
+  padding: 0 8px;
+}
+
+.applicant .hint {
+  display: block;
+  margin: -4px 0 8px;
+}
+
+.lock-tag {
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: #efeadb;
+  padding: 2px 8px;
+  border-radius: 99px;
+  margin-left: 6px;
+}
+
+input.locked,
+input:disabled {
+  background: #eeeeef !important;
+  color: #5d6578;
+  border-color: #d9d9dd !important;
+  cursor: not-allowed;
+  box-shadow: none !important;
+  -webkit-text-fill-color: #5d6578;
+  opacity: 1;
+}
+
+.req-mark {
+  color: var(--bad);
+  font-weight: 800;
+  margin-left: 2px;
+}
+
+/* ---------- Modal Edit Profil ---------- */
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 4px 0 6px;
+}
+
+.avatar-edit {
+  position: relative;
+  flex: none;
+}
+
+.avatar-edit .avatar-lg {
+  width: 84px;
+  height: 84px;
+  border: 3px solid var(--amber);
+  box-shadow: 0 4px 14px rgba(22, 37, 74, .18);
+  transition: transform .3s var(--ease);
+}
+
+.avatar-edit:hover .avatar-lg {
+  transform: scale(1.04);
+}
+
+.pen-badge {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #fff;
+  color: var(--navy-3);
+  box-shadow: 0 2px 8px rgba(22, 37, 74, .25);
+  transition: transform .2s var(--ease), background .15s, color .15s;
+}
+
+.pen-badge svg,
+.pen-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.pen-badge:hover {
+  transform: scale(1.12) rotate(-8deg);
+  background: var(--navy);
+  color: #fff;
+}
+
+.name-edit {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.name-input {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(1rem, 4vw, 1.2rem) !important;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -.01em;
+  color: var(--navy);
+  border: 1.5px solid transparent !important;
+  background: transparent !important;
+  padding: 6px 8px !important;
+  min-height: 0 !important;
+  border-radius: 8px;
+  text-overflow: ellipsis;
+}
+
+.name-input:not(.editing):focus {
+  box-shadow: none;
+  border-color: transparent !important;
+  cursor: default;
+}
+
+.name-input.editing {
+  background: #fff !important;
+  border-color: var(--amber-d) !important;
+  box-shadow: var(--focus);
+  text-transform: none;
+}
+
+.pen-btn {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--navy-3);
+  transition: transform .2s var(--ease), background .15s;
+}
+
+.pen-btn:hover {
+  background: #eef1fa;
+  transform: scale(1.1) rotate(-8deg);
+}
+
+.input-pen {
+  position: relative;
+}
+
+.input-pen input {
+  padding-right: 46px !important;
+}
+
+.input-pen .pen-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.input-pen .pen-btn:hover {
+  transform: translateY(-50%) scale(1.1) rotate(-8deg);
+}
+
+.photo-del {
+  font-size: .82rem;
+  margin: 0 0 2px;
+  display: inline-block;
+}
+
+.photo-hint {
+  display: block;
+  margin: 2px 0 14px;
+}
+
+.lock-note {
+  margin: -4px 0 12px;
+  font-size: .8rem;
+}
+
+@media (max-width: 520px) {
+
+  .login-hero::before,
+  .login-hero::after {
+    display: none;
+  }
+}
+
+/* ---------- Hormati preferensi "kurangi gerakan" ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
